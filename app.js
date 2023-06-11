@@ -16,6 +16,11 @@ app.use(express.json())
 connectdb()
  app.use(cors())
 
+app.get('/', (req, res) => {
+  res.send('live api')
+})
+
+
 // category
 app.post('/category',CategoryController.categoryinsert)
 app.get('/categorydisplay', CategoryController.catedisplay)
@@ -25,6 +30,11 @@ app.get('/categorydisplay', CategoryController.catedisplay)
 // product
 app.post('/product', ProductController.productinsert)
 app.get('/productdisplay', ProductController.proddisplay)
+
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`)
