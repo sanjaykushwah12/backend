@@ -1,4 +1,4 @@
-const ProductModel = require("../modal/product")
+const ProductModel = require("../model/product")
 const cloudinary = require('cloudinary').v2;
 
 cloudinary.config({ 
@@ -70,6 +70,25 @@ class ProductController{
         console.log(error)
     }
    
+  }
+
+  static proddelete = async(req,res)=>{
+    const result = await ProductModel.findById(req.params.id)
+   // console.log(result)
+    const imgdata = result.image;
+   // console.log(imgdata)
+    await cloudinary.uploader.destroy(imgdata)
+
+    try {
+      const data = await ProductModel.findByIdAndDelete(req.params.id)
+      res.status(200).json({
+        success:true,
+        message:'Delete Successfully'
+      })
+    } catch (error) {
+      
+    }
+
   }
 }
 module.exports = ProductController
