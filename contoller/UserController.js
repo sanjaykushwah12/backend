@@ -78,6 +78,29 @@ class UserController {
       console.log(error);
     }
   };
+
+  static pwd_update = async(req,res) =>{
+    try {
+      const {user_id, password} =req.body;
+      const User = await UserModel.findOne({_id :user_id})
+      if(User){
+        const newpassword = await bcrypt.hash(password, 10);
+
+        const data =await  UserModel.findByIdAndUpdate({_id:user_id},{$set:{
+          password :newpassword,
+          
+        }})
+        res.status(200).send({success:true, message:'Password Update Successfully'})
+
+      }else{
+        res.status(200).send({success:false, message:'Invalid Credentials'})
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
+
 }
 module.exports = UserController;
 

@@ -23,13 +23,14 @@ app.use(cors())
 
 
 app.get('/', (req, res) => {
-  res.send('live api')
+  res.send('live API of E-Commerce ')
 })
 
 // user 
 app.post('/usersregister',UserController.userreg)
 app.get('/userdetails',UserController.userinfo)
 app.get('/userlogin',UserController.user_verify)
+app.post('/passwordupdate', UserController.pwd_update)
 
 
 // category
@@ -49,5 +50,5 @@ app.get('/productdelete/:id', ProductController.proddelete)
 
 
 app.listen(port, () => {
-  console.log(`Server listening on port ${port}`)
+  console.log(`Server is running on localhost  ${port}`)
 })
