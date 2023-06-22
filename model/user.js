@@ -15,12 +15,16 @@ const userSchema = new mongoose.Schema({
   mobile:{
     type:Number,
     required:true,
-    maxlength:[10 ,'valid mobile No.'],
-    minlength:[10]
+  
   },
   password:{
     type:String,
-    required:true
+    required:true,
+  },
+  token:{
+    type:String,
+    default :''
+
   }
 
 },{timestamps:true})

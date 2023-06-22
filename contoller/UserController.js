@@ -1,6 +1,8 @@
 const UserModel = require("../model/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const randomstring = require("randomstring")
+const nodemailer = require('nodemailer')
 
 class UserController {
   static userreg = async (req, res) => {
@@ -100,6 +102,62 @@ class UserController {
     }
     
   }
+   
+
+  static forget_password =async(req,res)=>{
+    try {
+      const {email} =req.body;
+     const data = await UserModel.findOne({email:email})
+     //console.log(data)
+       if(data){
+         const randomstr = randomstring.generate()
+        //  console.log(randomstr)
+           const info = await UserModel.updateOne({email:email}, {$set:{token:randomstr}})
+        // sendresetpasswordMail(data.email,randomstr)
+         res.status(200).send({success:true,msg:"pls check your email"})
+       }
+       else{
+         res.status(200).send({success:false,msg:"this email does not exist"})
+       }
+    } catch (error) {
+      res.send(error)
+    }
+  }
+  
+  // static sendresetpasswordMail = async( email, token)=>{
+  //     try {
+        
+  //       const transport = nodemailer.createTransport({
+  //         host:'smtp.gmail.com',
+  //         port:587,
+  //         secure:false,
+  //         requireTLS:true,
+  //         auth:{
+  //           user:'sanjaykushwah2020@gmail.com',
+  //           pass:''
+  //         }
+  //       });
+  //       const mailoptions = {
+  //         from:'sanjaykushwah2020@gmail.com',
+  //         to:email,
+  //         subject:'Reset your Password',
+  //         html: '<p> Hii User please copy the link <a href="http://localhost:5000/passwordupdate?token='+token+'"> Reset your password</a>'
+  //       }
+  //       transport.sendMail(mailoptions,function(error,info){
+  //         if(error){
+  //           console.log(error)
+  //         }else
+  //         {
+  //           console.log('Mail has been sent:',info.response);
+  //         }
+  //       })
+
+  //     } catch (error) {
+
+  //       console.log(error)
+        
+  //     }
+  // }
 
 }
 module.exports = UserController;
